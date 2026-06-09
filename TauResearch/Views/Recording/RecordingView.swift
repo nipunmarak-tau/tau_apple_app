@@ -200,8 +200,20 @@ struct RecordingView: View {
     private func statusCard(vm: VideoRecordingViewModel, settings: SettingsViewModel) -> some View {
         let gpsEnabled = isLocationAuthorized()
         let cameraLabel = ApiCache.shared.getUseMainRearCameraForScan() ? "Main" : "Ultra Wide"
-        let videoSize = "1920×1080" // matches the AVAssetWriter settings in CameraController
-        let supportsP010 = device(activeFormat: \.isVideoHDRSupported) ?? false
+        // Reflects what CameraController's session preset + AVAssetWriter actually deliver:
+        // 4K UHD when the lens supports it, otherwise the AVCaptureSession.Preset.high default.
+        let videoSize = activeDevice().map { device -> String in
+            let supports4K = device.formats.contains { fmt in
+                let dims = CMVideoFormatDescriptionGetDimensions(fmt.formatDescription)
+                return dims.width >= 3840 && dims.height >= 2160
+            }
+            return supports4K ? "3840×2160" : "1920×1080"
+        } ?? "3840×2160"
+        // P010 mirrors Android's `hdrSupported = supportsP010 && hasTenBitHdrProfile` —
+        // the 10-bit pixel format is only useful when paired with an actual HDR profile,
+        // so we report "Yes" only when both gates pass.
+        let supportsP010 = !supportedHdrProfiles().isEmpty
+            && (device(activeFormat: \.isVideoHDRSupported) ?? false)
         let exposureNs: Int64 = currentShutterDenom > 0 ? Int64(1_000_000_000 / currentShutterDenom) : 0
         let backendLabel = tfliteDelegateLabel(vm: vm)
 

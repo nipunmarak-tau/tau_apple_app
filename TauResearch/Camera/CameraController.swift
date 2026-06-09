@@ -103,12 +103,15 @@ final class CameraController: NSObject {
             let url = Self.makeOutputURL(extension: "mp4")
             let writer = try AVAssetWriter(outputURL: url, fileType: .mp4)
 
+            // Default to 4K UHD (3840×2160) to mirror the Android `forcedSize = Size(3840, 2160)`
+            // pick. H.264 at 4K30 is heavy but readable on modern A-series chips; bump the
+            // bitrate to ~50 Mbps so the encoder doesn't smear texture detail in the scan.
             let videoSettings: [String: Any] = [
                 AVVideoCodecKey: AVVideoCodecType.h264,
-                AVVideoWidthKey: 1920,
-                AVVideoHeightKey: 1080,
+                AVVideoWidthKey: 3840,
+                AVVideoHeightKey: 2160,
                 AVVideoCompressionPropertiesKey: [
-                    AVVideoAverageBitRateKey: 20_000_000,
+                    AVVideoAverageBitRateKey: 50_000_000,
                     AVVideoExpectedSourceFrameRateKey: 30
                 ]
             ]
@@ -197,7 +200,13 @@ final class CameraController: NSObject {
         session.beginConfiguration()
         defer { session.commitConfiguration() }
 
-        session.sessionPreset = .high
+        // Prefer 4K capture; fall back to `.high` if the device/lens combo can't deliver it
+        // (e.g. older hardware or ultra-wide formats that top out at 1080p).
+        if session.canSetSessionPreset(.hd4K3840x2160) {
+            session.sessionPreset = .hd4K3840x2160
+        } else {
+            session.sessionPreset = .high
+        }
 
         for input in session.inputs { session.removeInput(input) }
         for output in session.outputs { session.removeOutput(output) }
