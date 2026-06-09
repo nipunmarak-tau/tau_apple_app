@@ -170,7 +170,7 @@ struct RecordingView: View {
                     .font(.subheadline.weight(.bold))
                     .foregroundStyle(.white)
             }
-            if let loc = RecordingService.shared.currentLocation {
+            if let loc = vm.location {
                 Text(String(format: "%.6f, %.6f", loc.coordinate.latitude, loc.coordinate.longitude))
                     .font(.caption.weight(.medium))
                     .foregroundStyle(.white)
@@ -501,10 +501,12 @@ struct RecordingView: View {
             permissionStatus = granted ? .authorized : .denied
         }
         _ = await AVCaptureDevice.requestAccess(for: .audio)
-        let locStatus = CLLocationManager().authorizationStatus
-        if locStatus == .notDetermined {
-            CLLocationManager().requestWhenInUseAuthorization()
-        }
+        // Kick the GPS stream + auth prompt through the *persistent* RecordingService
+        // location manager. We used to call `requestWhenInUseAuthorization()` on a
+        // transient `CLLocationManager()` that was deallocated before the prompt
+        // resolved — on some devices that silently dropped the prompt entirely, which
+        // is the root cause of the "GPS data was not found" failure.
+        RecordingService.shared.startLocationUpdates()
     }
 
     private func activeDevice() -> AVCaptureDevice? {

@@ -29,6 +29,11 @@ final class VideoRecordingViewModel {
     var lastSegment: RecordingSegment?
     var lastVideoPath: String?
 
+    /// Mirrors `recordingVm.location` from the Android VM. Reads from
+    /// `RecordingService.shared.currentLocation`; the service is `@Observable`, so
+    /// SwiftUI re-renders whenever a new fix arrives.
+    var location: CLLocation? { service.currentLocation }
+
     var recordingReady: Bool = false
     var gpsReadyForRecording: Bool = false
     var selectedDynamicRange: Int = 1  // 1 = standard, matches the Android constant
@@ -84,6 +89,12 @@ final class VideoRecordingViewModel {
 
     func startPreview(device: AVCaptureDevice, fps: Int, iso: Int, exposureTimeNs: Int64, onStatus: @escaping (String) -> Void) {
         Task {
+            // Kick the GPS stream BEFORE we start the gate. Previously the gate polled
+            // `service.currentLocation` while `LocationManager.startUpdatingLocation`
+            // was still idle, so the gate timed out and the Start-Recording button
+            // never lit up.
+            service.startLocationUpdates()
+
             await controller.startPreview(device: device,
                                            targetFps: fps,
                                            iso: iso,
@@ -99,9 +110,17 @@ final class VideoRecordingViewModel {
     }
 
     func stopCamera() {
+        let wasRecording = recording
         controller.stop()
         previewRunning = false
         recording = false
+        // Don't cut the GPX off mid-track. If a recording was active when stopCamera
+        // was called (e.g., scene backgrounded), leave the GPS stream running so the
+        // recording's existing logger can finalize cleanly; otherwise stop the stream
+        // to save battery.
+        if !wasRecording {
+            service.stopLocationUpdates()
+        }
         resetRecordingReadinessState()
     }
 
@@ -141,6 +160,9 @@ final class VideoRecordingViewModel {
         stopDurationTimer()
         controller.stop()
         previewRunning = false
+        // Recording fully done — stop the GPS stream so it doesn't drain battery while
+        // the user looks at the "Ready to Upload" card.
+        service.stopLocationUpdates()
 
         if let videoPath {
             let gpx = gpxPath ?? (videoPath as NSString).deletingPathExtension + ".gpx"
