@@ -1,0 +1,665 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		05DA8B6621546654004B8A00 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FA78837F7C4E3AA0953076 /* AppError.swift */; };
+		09299D0138FB558570932775 /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E07781C779FAA06D38AAF3 /* AuthRepository.swift */; };
+		09ADA79FC6CB3B8D7041A64C /* Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084F6B76A6262856A8A0D367 /* Formatting.swift */; };
+		0D063E9B1576B01808381639 /* NetworkConnectivityObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08875C8D86B746FEBF2BE20 /* NetworkConnectivityObserver.swift */; };
+		18BD278A9D9E282BFE9F497B /* ApiCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267917283812A4A45EF892BC /* ApiCache.swift */; };
+		1BE850435F01632503AAE2DC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920406BF294AB1A58BDA8518 /* SettingsView.swift */; };
+		22405E17972C895E219070F9 /* KiwiDetector.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = CC6CB280734634FB227D90CD /* KiwiDetector.mlpackage */; };
+		237261B5D2945D5353E4E81E /* SiteBlockModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F23F21DE20525AF60844967 /* SiteBlockModels.swift */; };
+		2A268C04C0A48E59625F737F /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD1BF71570094B431E6AAAA /* APIClient.swift */; };
+		2C4F492B047D0779B5F8C82B /* CSVLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C773E9A6584EEF3CD3B3CDD /* CSVLogger.swift */; };
+		2DF946870BC1905070E47B83 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59380EE1328510533298264D /* DashboardView.swift */; };
+		341119272A596BD01CACE5A4 /* TauResearchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCFAB2B39EA0D8FEA5C1761 /* TauResearchApp.swift */; };
+		5523447529F391B8E32FD2B7 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8091FB0EDC56BAA803A6D9F5 /* TokenManager.swift */; };
+		586397B76552B65E26D22B41 /* DetectionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D82049F19CF9113B1D10BA /* DetectionResult.swift */; };
+		5D69D0FD8D02A02734FC74BA /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA885E8A9F3AD2AC14739166 /* LoginViewModel.swift */; };
+		5FF211BB60150E0E27C0006D /* DetectionOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C151561139F6D6FECE0CBE9A /* DetectionOverlay.swift */; };
+		63E22F58ADA44B5E08A03353 /* SettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE1A2C79C809AC1B01E0FE7 /* SettingsRepository.swift */; };
+		6D4411EE185F9852B0A178A4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA120A4609C0D16F297E57 /* ContentView.swift */; };
+		7023D999932C31004C168517 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29818035FC567F458E29D02A /* AppRouter.swift */; };
+		73C47245B9C76E4900C7C2E4 /* KiwiDetectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97100298F3AA25FC1DA7D53 /* KiwiDetectionProcessor.swift */; };
+		7405C2AB7E721D9DD7F9234C /* model-hdr-320.tflite in Resources */ = {isa = PBXBuildFile; fileRef = AF424450D6CAB47D6644303E /* model-hdr-320.tflite */; };
+		7F8C71F60B299F8BED11941A /* AppHealthMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9383C3F38C27A33A21249F /* AppHealthMonitor.swift */; };
+		804F3CD9203E14E3FCAA07F9 /* VideoUploadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633D41282F969F149C7C7E70 /* VideoUploadViewModel.swift */; };
+		96900338B05F635EE87F11BC /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1506DAB5B4FE5629DAD6F54 /* LoginView.swift */; };
+		97D31374F223EB3A4D196BEC /* VideoRecordingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FF8CF34D9AF7F271098EFE /* VideoRecordingViewModel.swift */; };
+		9837F97673D357F9D76698AA /* GPXLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224916C7FF0B8B97EA2E2CFE /* GPXLogger.swift */; };
+		A02F217062909C9CFF2512F8 /* convert_tflite_to_coreml.py in Resources */ = {isa = PBXBuildFile; fileRef = D4B339B978B6C3C3DA75FD7F /* convert_tflite_to_coreml.py */; };
+		A1594601750D4FB822528BFC /* LoginModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8CF9A79EF9EFBD28116DE9 /* LoginModels.swift */; };
+		A2E1FD564F888CB8C8DB9136 /* VideoUploadRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E93028A30D6B73FDE2333A /* VideoUploadRepository.swift */; };
+		A2E7248581A301A77884AED1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E484DA5F47D6B08A89A49020 /* Assets.xcassets */; };
+		A37FC33461A13F06215A1BE3 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BC669A0591048CB0126C4E /* DashboardViewModel.swift */; };
+		A80B0CD1105A31F84BDD6AD2 /* UploadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A44BE45C2253BFC2EA50F /* UploadService.swift */; };
+		A83727FB27F962D0D3ADF914 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8619B8D95B853A02DFDADE /* CameraController.swift */; };
+		B02B00F68DF2EDD3F8B001DD /* SwiftDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB2B23D9C2DD743096C0BC /* SwiftDataModels.swift */; };
+		B0EC44FF625908236C1A062E /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5199D6CBC17CA464613AE26 /* RecordingView.swift */; };
+		B19CE59D97428BE512B0F643 /* SiteBlockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F56D657577A389D30F1EEA2 /* SiteBlockRepository.swift */; };
+		BA02D83DC23BE483143C40BA /* UploadSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4C0844832D9D60D4214A24 /* UploadSection.swift */; };
+		C527B09ABD2C8F4613C35EFF /* RecordingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE58B361B6C23788C11182F /* RecordingService.swift */; };
+		C610946F03212E1B3C1AE7CE /* DashboardRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B8BBC572AC6B2DAB7D98E1 /* DashboardRepository.swift */; };
+		CA89D8EE42FA336B788CB075 /* RecordingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F781A4F30ADC7A027E6C6C /* RecordingRepository.swift */; };
+		CAA666DB6265CE0A450BCD91 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1C6B5C447AD722E3B88315 /* SettingsViewModel.swift */; };
+		CBBA43F894E1411E3ED11BB2 /* BrandColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1BED5EAB329C392388869D6 /* BrandColors.swift */; };
+		CD415312228AA276ACA96DA0 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918240701CFD0CC35CBB2AAC /* CameraPreviewView.swift */; };
+		D18CD2705684E8A516D41B21 /* CreateSiteBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259B2C68A2CF347BC956D5A2 /* CreateSiteBlockView.swift */; };
+		D469916F330218ADC7A94B73 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D89991D1F374D9C3FA7367 /* DeviceManager.swift */; };
+		D4CDD2D83E396660F15B7F03 /* CreateSiteBlockViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B94E05475F562F63F864F7C /* CreateSiteBlockViewModel.swift */; };
+		ED9FF4AF911941549E076F6F /* CameraSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6717AC8AE735A7F0539D5F29 /* CameraSelector.swift */; };
+		F291E3407F27B9AAC8B74290 /* UploadStateBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A63CB5BD50CF93817526AA9 /* UploadStateBus.swift */; };
+		F6FCE65C14A5FA23B53024F7 /* MultiVideoModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017ED56F44A200D279EDDA2E /* MultiVideoModels.swift */; };
+		FC9164D8A0C711EF9F3A1CC1 /* RecordingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7C2465C93071E6AC190F6 /* RecordingItemView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		017ED56F44A200D279EDDA2E /* MultiVideoModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiVideoModels.swift; sourceTree = "<group>"; };
+		084F6B76A6262856A8A0D367 /* Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatting.swift; sourceTree = "<group>"; };
+		0FE1A2C79C809AC1B01E0FE7 /* SettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepository.swift; sourceTree = "<group>"; };
+		1A63CB5BD50CF93817526AA9 /* UploadStateBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadStateBus.swift; sourceTree = "<group>"; };
+		1B94E05475F562F63F864F7C /* CreateSiteBlockViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSiteBlockViewModel.swift; sourceTree = "<group>"; };
+		224916C7FF0B8B97EA2E2CFE /* GPXLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXLogger.swift; sourceTree = "<group>"; };
+		259B2C68A2CF347BC956D5A2 /* CreateSiteBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSiteBlockView.swift; sourceTree = "<group>"; };
+		267917283812A4A45EF892BC /* ApiCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCache.swift; sourceTree = "<group>"; };
+		28D89991D1F374D9C3FA7367 /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
+		29818035FC567F458E29D02A /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		2F56D657577A389D30F1EEA2 /* SiteBlockRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteBlockRepository.swift; sourceTree = "<group>"; };
+		30FA78837F7C4E3AA0953076 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		35E07781C779FAA06D38AAF3 /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
+		3AD1BF71570094B431E6AAAA /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		3EBB2B23D9C2DD743096C0BC /* SwiftDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataModels.swift; sourceTree = "<group>"; };
+		3FB7C2465C93071E6AC190F6 /* RecordingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingItemView.swift; sourceTree = "<group>"; };
+		4E8619B8D95B853A02DFDADE /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
+		59380EE1328510533298264D /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		5D4C0844832D9D60D4214A24 /* UploadSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadSection.swift; sourceTree = "<group>"; };
+		633D41282F969F149C7C7E70 /* VideoUploadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoUploadViewModel.swift; sourceTree = "<group>"; };
+		666A44BE45C2253BFC2EA50F /* UploadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadService.swift; sourceTree = "<group>"; };
+		6717AC8AE735A7F0539D5F29 /* CameraSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSelector.swift; sourceTree = "<group>"; };
+		6F23F21DE20525AF60844967 /* SiteBlockModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteBlockModels.swift; sourceTree = "<group>"; };
+		72E93028A30D6B73FDE2333A /* VideoUploadRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoUploadRepository.swift; sourceTree = "<group>"; };
+		73D82049F19CF9113B1D10BA /* DetectionResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectionResult.swift; sourceTree = "<group>"; };
+		8091FB0EDC56BAA803A6D9F5 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
+		8C773E9A6584EEF3CD3B3CDD /* CSVLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVLogger.swift; sourceTree = "<group>"; };
+		918240701CFD0CC35CBB2AAC /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
+		920406BF294AB1A58BDA8518 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		93AA120A4609C0D16F297E57 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A1506DAB5B4FE5629DAD6F54 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		A5199D6CBC17CA464613AE26 /* RecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingView.swift; sourceTree = "<group>"; };
+		A593D666D0709AFB97FA6AB1 /* TauResearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TauResearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA885E8A9F3AD2AC14739166 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		ABCFAB2B39EA0D8FEA5C1761 /* TauResearchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TauResearchApp.swift; sourceTree = "<group>"; };
+		AF424450D6CAB47D6644303E /* model-hdr-320.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "model-hdr-320.tflite"; sourceTree = "<group>"; };
+		B97100298F3AA25FC1DA7D53 /* KiwiDetectionProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KiwiDetectionProcessor.swift; sourceTree = "<group>"; };
+		B9F781A4F30ADC7A027E6C6C /* RecordingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingRepository.swift; sourceTree = "<group>"; };
+		BE1C6B5C447AD722E3B88315 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		C08875C8D86B746FEBF2BE20 /* NetworkConnectivityObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectivityObserver.swift; sourceTree = "<group>"; };
+		C151561139F6D6FECE0CBE9A /* DetectionOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectionOverlay.swift; sourceTree = "<group>"; };
+		C8FF8CF34D9AF7F271098EFE /* VideoRecordingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecordingViewModel.swift; sourceTree = "<group>"; };
+		C9BC669A0591048CB0126C4E /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		CB9383C3F38C27A33A21249F /* AppHealthMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppHealthMonitor.swift; sourceTree = "<group>"; };
+		CC6CB280734634FB227D90CD /* KiwiDetector.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = KiwiDetector.mlpackage; sourceTree = "<group>"; };
+		D1BED5EAB329C392388869D6 /* BrandColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandColors.swift; sourceTree = "<group>"; };
+		D4B339B978B6C3C3DA75FD7F /* convert_tflite_to_coreml.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = convert_tflite_to_coreml.py; sourceTree = "<group>"; };
+		D9B8BBC572AC6B2DAB7D98E1 /* DashboardRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardRepository.swift; sourceTree = "<group>"; };
+		E484DA5F47D6B08A89A49020 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		ED8CF9A79EF9EFBD28116DE9 /* LoginModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModels.swift; sourceTree = "<group>"; };
+		EEE58B361B6C23788C11182F /* RecordingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingService.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0D060DEAC35AC053BED58B45 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				93AA120A4609C0D16F297E57 /* ContentView.swift */,
+				465DF547C21E5C4E1E963A61 /* CreateSiteBlock */,
+				233AFDBCB709FBA61CFC7467 /* Dashboard */,
+				5340C806ECDAE5ECCE116808 /* Login */,
+				A98F9FE19FC6574F3D3989DB /* Recording */,
+				AEEB3CC5596BE795C18C402C /* Settings */,
+				29D7BD928713D5944C875D9F /* Upload */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0D1F53172F8F04BFC19177AD /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				3AD1BF71570094B431E6AAAA /* APIClient.swift */,
+				C08875C8D86B746FEBF2BE20 /* NetworkConnectivityObserver.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		0F89F0F78E95883A1892C9CE /* Monitoring */ = {
+			isa = PBXGroup;
+			children = (
+				CB9383C3F38C27A33A21249F /* AppHealthMonitor.swift */,
+			);
+			path = Monitoring;
+			sourceTree = "<group>";
+		};
+		233AFDBCB709FBA61CFC7467 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				59380EE1328510533298264D /* DashboardView.swift */,
+				3FB7C2465C93071E6AC190F6 /* RecordingItemView.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		29D7BD928713D5944C875D9F /* Upload */ = {
+			isa = PBXGroup;
+			children = (
+				5D4C0844832D9D60D4214A24 /* UploadSection.swift */,
+			);
+			path = Upload;
+			sourceTree = "<group>";
+		};
+		2C3EFCDE5A781E9BB06FB711 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				1B94E05475F562F63F864F7C /* CreateSiteBlockViewModel.swift */,
+				C9BC669A0591048CB0126C4E /* DashboardViewModel.swift */,
+				AA885E8A9F3AD2AC14739166 /* LoginViewModel.swift */,
+				BE1C6B5C447AD722E3B88315 /* SettingsViewModel.swift */,
+				C8FF8CF34D9AF7F271098EFE /* VideoRecordingViewModel.swift */,
+				633D41282F969F149C7C7E70 /* VideoUploadViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		35A3A1DDBBDBF9DC9D664329 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				8C773E9A6584EEF3CD3B3CDD /* CSVLogger.swift */,
+				084F6B76A6262856A8A0D367 /* Formatting.swift */,
+				224916C7FF0B8B97EA2E2CFE /* GPXLogger.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		42799B8AB9A795C0318BA518 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				35E07781C779FAA06D38AAF3 /* AuthRepository.swift */,
+				D9B8BBC572AC6B2DAB7D98E1 /* DashboardRepository.swift */,
+				B9F781A4F30ADC7A027E6C6C /* RecordingRepository.swift */,
+				0FE1A2C79C809AC1B01E0FE7 /* SettingsRepository.swift */,
+				2F56D657577A389D30F1EEA2 /* SiteBlockRepository.swift */,
+				72E93028A30D6B73FDE2333A /* VideoUploadRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		465DF547C21E5C4E1E963A61 /* CreateSiteBlock */ = {
+			isa = PBXGroup;
+			children = (
+				259B2C68A2CF347BC956D5A2 /* CreateSiteBlockView.swift */,
+			);
+			path = CreateSiteBlock;
+			sourceTree = "<group>";
+		};
+		5340C806ECDAE5ECCE116808 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				A1506DAB5B4FE5629DAD6F54 /* LoginView.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		618BC991966A9FF4FBE0122B = {
+			isa = PBXGroup;
+			children = (
+				F081D00A2888A6E5BEABF829 /* TauResearch */,
+				BB832FF3FD13BA7E7C5F706A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6DED16595FABDAF1EBE69DC7 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				267917283812A4A45EF892BC /* ApiCache.swift */,
+				28D89991D1F374D9C3FA7367 /* DeviceManager.swift */,
+				3EBB2B23D9C2DD743096C0BC /* SwiftDataModels.swift */,
+				8091FB0EDC56BAA803A6D9F5 /* TokenManager.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		7DD72CA6D25168648973D5D2 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				D1BED5EAB329C392388869D6 /* BrandColors.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		8E073CC88F16D1A542CFF9F8 /* ML */ = {
+			isa = PBXGroup;
+			children = (
+				73D82049F19CF9113B1D10BA /* DetectionResult.swift */,
+				B97100298F3AA25FC1DA7D53 /* KiwiDetectionProcessor.swift */,
+			);
+			path = ML;
+			sourceTree = "<group>";
+		};
+		91634638123F704FF827F2FE /* App */ = {
+			isa = PBXGroup;
+			children = (
+				29818035FC567F458E29D02A /* AppRouter.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A98F9FE19FC6574F3D3989DB /* Recording */ = {
+			isa = PBXGroup;
+			children = (
+				C151561139F6D6FECE0CBE9A /* DetectionOverlay.swift */,
+				A5199D6CBC17CA464613AE26 /* RecordingView.swift */,
+			);
+			path = Recording;
+			sourceTree = "<group>";
+		};
+		AEEB3CC5596BE795C18C402C /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				920406BF294AB1A58BDA8518 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		BB832FF3FD13BA7E7C5F706A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A593D666D0709AFB97FA6AB1 /* TauResearch.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C5E7147E9C7738A4BFE663B9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				30FA78837F7C4E3AA0953076 /* AppError.swift */,
+				ED8CF9A79EF9EFBD28116DE9 /* LoginModels.swift */,
+				017ED56F44A200D279EDDA2E /* MultiVideoModels.swift */,
+				6F23F21DE20525AF60844967 /* SiteBlockModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D8CF41F34B54B030802B3A96 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				EEE58B361B6C23788C11182F /* RecordingService.swift */,
+				666A44BE45C2253BFC2EA50F /* UploadService.swift */,
+				1A63CB5BD50CF93817526AA9 /* UploadStateBus.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		DB6DAA19A5F926436AE2569B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E484DA5F47D6B08A89A49020 /* Assets.xcassets */,
+				D4B339B978B6C3C3DA75FD7F /* convert_tflite_to_coreml.py */,
+				AF424450D6CAB47D6644303E /* model-hdr-320.tflite */,
+				CC6CB280734634FB227D90CD /* KiwiDetector.mlpackage */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F081D00A2888A6E5BEABF829 /* TauResearch */ = {
+			isa = PBXGroup;
+			children = (
+				ABCFAB2B39EA0D8FEA5C1761 /* TauResearchApp.swift */,
+				91634638123F704FF827F2FE /* App */,
+				F5F5701054CB7D218CEA78B9 /* Camera */,
+				8E073CC88F16D1A542CFF9F8 /* ML */,
+				C5E7147E9C7738A4BFE663B9 /* Models */,
+				0F89F0F78E95883A1892C9CE /* Monitoring */,
+				0D1F53172F8F04BFC19177AD /* Network */,
+				42799B8AB9A795C0318BA518 /* Repositories */,
+				DB6DAA19A5F926436AE2569B /* Resources */,
+				D8CF41F34B54B030802B3A96 /* Services */,
+				6DED16595FABDAF1EBE69DC7 /* Storage */,
+				7DD72CA6D25168648973D5D2 /* Theme */,
+				35A3A1DDBBDBF9DC9D664329 /* Utils */,
+				2C3EFCDE5A781E9BB06FB711 /* ViewModels */,
+				0D060DEAC35AC053BED58B45 /* Views */,
+			);
+			path = TauResearch;
+			sourceTree = "<group>";
+		};
+		F5F5701054CB7D218CEA78B9 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				4E8619B8D95B853A02DFDADE /* CameraController.swift */,
+				918240701CFD0CC35CBB2AAC /* CameraPreviewView.swift */,
+				6717AC8AE735A7F0539D5F29 /* CameraSelector.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		05E8061BCB0EC981F412EC69 /* TauResearch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 753C139048FC3624A4931475 /* Build configuration list for PBXNativeTarget "TauResearch" */;
+			buildPhases = (
+				CC84FB249948264281C5C310 /* Sources */,
+				DFD843B7BC1D9C213E4900FC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TauResearch;
+			packageProductDependencies = (
+			);
+			productName = TauResearch;
+			productReference = A593D666D0709AFB97FA6AB1 /* TauResearch.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7D73B009F22C9015FC3DD677 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2620;
+			};
+			buildConfigurationList = 1B6E1CFF4E4DBCC82F892EB9 /* Build configuration list for PBXProject "TauResearch" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 618BC991966A9FF4FBE0122B;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = BB832FF3FD13BA7E7C5F706A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				05E8061BCB0EC981F412EC69 /* TauResearch */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DFD843B7BC1D9C213E4900FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2E7248581A301A77884AED1 /* Assets.xcassets in Resources */,
+				A02F217062909C9CFF2512F8 /* convert_tflite_to_coreml.py in Resources */,
+				7405C2AB7E721D9DD7F9234C /* model-hdr-320.tflite in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CC84FB249948264281C5C310 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A268C04C0A48E59625F737F /* APIClient.swift in Sources */,
+				18BD278A9D9E282BFE9F497B /* ApiCache.swift in Sources */,
+				05DA8B6621546654004B8A00 /* AppError.swift in Sources */,
+				7F8C71F60B299F8BED11941A /* AppHealthMonitor.swift in Sources */,
+				7023D999932C31004C168517 /* AppRouter.swift in Sources */,
+				09299D0138FB558570932775 /* AuthRepository.swift in Sources */,
+				CBBA43F894E1411E3ED11BB2 /* BrandColors.swift in Sources */,
+				2C4F492B047D0779B5F8C82B /* CSVLogger.swift in Sources */,
+				A83727FB27F962D0D3ADF914 /* CameraController.swift in Sources */,
+				CD415312228AA276ACA96DA0 /* CameraPreviewView.swift in Sources */,
+				ED9FF4AF911941549E076F6F /* CameraSelector.swift in Sources */,
+				6D4411EE185F9852B0A178A4 /* ContentView.swift in Sources */,
+				D18CD2705684E8A516D41B21 /* CreateSiteBlockView.swift in Sources */,
+				D4CDD2D83E396660F15B7F03 /* CreateSiteBlockViewModel.swift in Sources */,
+				C610946F03212E1B3C1AE7CE /* DashboardRepository.swift in Sources */,
+				2DF946870BC1905070E47B83 /* DashboardView.swift in Sources */,
+				A37FC33461A13F06215A1BE3 /* DashboardViewModel.swift in Sources */,
+				5FF211BB60150E0E27C0006D /* DetectionOverlay.swift in Sources */,
+				586397B76552B65E26D22B41 /* DetectionResult.swift in Sources */,
+				D469916F330218ADC7A94B73 /* DeviceManager.swift in Sources */,
+				09ADA79FC6CB3B8D7041A64C /* Formatting.swift in Sources */,
+				9837F97673D357F9D76698AA /* GPXLogger.swift in Sources */,
+				73C47245B9C76E4900C7C2E4 /* KiwiDetectionProcessor.swift in Sources */,
+				22405E17972C895E219070F9 /* KiwiDetector.mlpackage in Sources */,
+				A1594601750D4FB822528BFC /* LoginModels.swift in Sources */,
+				96900338B05F635EE87F11BC /* LoginView.swift in Sources */,
+				5D69D0FD8D02A02734FC74BA /* LoginViewModel.swift in Sources */,
+				F6FCE65C14A5FA23B53024F7 /* MultiVideoModels.swift in Sources */,
+				0D063E9B1576B01808381639 /* NetworkConnectivityObserver.swift in Sources */,
+				FC9164D8A0C711EF9F3A1CC1 /* RecordingItemView.swift in Sources */,
+				CA89D8EE42FA336B788CB075 /* RecordingRepository.swift in Sources */,
+				C527B09ABD2C8F4613C35EFF /* RecordingService.swift in Sources */,
+				B0EC44FF625908236C1A062E /* RecordingView.swift in Sources */,
+				63E22F58ADA44B5E08A03353 /* SettingsRepository.swift in Sources */,
+				1BE850435F01632503AAE2DC /* SettingsView.swift in Sources */,
+				CAA666DB6265CE0A450BCD91 /* SettingsViewModel.swift in Sources */,
+				237261B5D2945D5353E4E81E /* SiteBlockModels.swift in Sources */,
+				B19CE59D97428BE512B0F643 /* SiteBlockRepository.swift in Sources */,
+				B02B00F68DF2EDD3F8B001DD /* SwiftDataModels.swift in Sources */,
+				341119272A596BD01CACE5A4 /* TauResearchApp.swift in Sources */,
+				5523447529F391B8E32FD2B7 /* TokenManager.swift in Sources */,
+				BA02D83DC23BE483143C40BA /* UploadSection.swift in Sources */,
+				A80B0CD1105A31F84BDD6AD2 /* UploadService.swift in Sources */,
+				F291E3407F27B9AAC8B74290 /* UploadStateBus.swift in Sources */,
+				97D31374F223EB3A4D196BEC /* VideoRecordingViewModel.swift in Sources */,
+				A2E1FD564F888CB8C8DB9136 /* VideoUploadRepository.swift in Sources */,
+				804F3CD9203E14E3FCAA07F9 /* VideoUploadViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		20C80B0A62A66830BB9B9BD0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = BrandGreen;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = TauResearch/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Tau App";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tau.research;
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		BE6EFF47EA2EE0795A0F92F5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 6;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 7R99TJ9U2T;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		C44BB35DD5918548D3F53BC6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 6;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 7R99TJ9U2T;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		DB20ECBE572FABC00403B7CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = BrandGreen;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = TauResearch/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Tau App";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tau.research;
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1B6E1CFF4E4DBCC82F892EB9 /* Build configuration list for PBXProject "TauResearch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE6EFF47EA2EE0795A0F92F5 /* Debug */,
+				C44BB35DD5918548D3F53BC6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		753C139048FC3624A4931475 /* Build configuration list for PBXNativeTarget "TauResearch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB20ECBE572FABC00403B7CD /* Debug */,
+				20C80B0A62A66830BB9B9BD0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7D73B009F22C9015FC3DD677 /* Project object */;
+}
