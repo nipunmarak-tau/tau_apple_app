@@ -170,7 +170,7 @@ struct RecordingView: View {
                     .font(.subheadline.weight(.bold))
                     .foregroundStyle(.white)
             }
-            if let loc = RecordingService.shared.currentLocation {
+            if let loc = vm.location {
                 Text(String(format: "%.6f, %.6f", loc.coordinate.latitude, loc.coordinate.longitude))
                     .font(.caption.weight(.medium))
                     .foregroundStyle(.white)
@@ -200,8 +200,15 @@ struct RecordingView: View {
     private func statusCard(vm: VideoRecordingViewModel, settings: SettingsViewModel) -> some View {
         let gpsEnabled = isLocationAuthorized()
         let cameraLabel = ApiCache.shared.getUseMainRearCameraForScan() ? "Main" : "Ultra Wide"
-        let videoSize = "1920×1080" // matches the AVAssetWriter settings in CameraController
-        let supportsP010 = device(activeFormat: \.isVideoHDRSupported) ?? false
+        // Reflects what CameraController's session preset + AVAssetWriter actually deliver:
+        // 4K UHD when the lens supports it, otherwise the AVCaptureSession.Preset.high default.
+        let videoSize = activeDevice().map { device -> String in
+            let supports4K = device.formats.contains { fmt in
+                let dims = CMVideoFormatDescriptionGetDimensions(fmt.formatDescription)
+                return dims.width >= 3840 && dims.height >= 2160
+            }
+            return supports4K ? "3840×2160" : "1920×1080"
+        } ?? "3840×2160"
         let exposureNs: Int64 = currentShutterDenom > 0 ? Int64(1_000_000_000 / currentShutterDenom) : 0
         let backendLabel = tfliteDelegateLabel(vm: vm)
 
@@ -220,8 +227,6 @@ struct RecordingView: View {
                 HStack {
                     Spacer()
                     InfoChip(text: "Video: \(videoSize)")
-                    Spacer()
-                    InfoChip(text: "P010: \(supportsP010 ? "Yes" : "No")")
                     Spacer()
                     InfoChip(text: "Camera: \(cameraLabel)")
                     Spacer()
@@ -265,6 +270,11 @@ struct RecordingView: View {
         let supportedHdr = supportedHdrProfiles()
         let supportsStab = stabilizationSupported()
         let manualAeAllowed = true // iOS sensor AE stays available even for HLG10 capture
+        // Chips render in HDR10+ → HDR10 → HLG10 order so the highest-priority option
+        // appears first and matches the auto-selected default.
+        let chipsToShow = DynamicRangeProfile.priorityOrder.filter {
+            supportedHdr.contains($0.rawValue)
+        }
 
         return Group {
             if !supportedHdr.isEmpty {
@@ -273,13 +283,13 @@ struct RecordingView: View {
                         Text("Dynamic Range")
                             .font(.subheadline.weight(.bold))
                         HStack(spacing: 8) {
-                            if supportedHdr.contains(DynamicRangeProfile.hlg10.rawValue) {
+                            ForEach(chipsToShow, id: \.rawValue) { profile in
                                 HdrChip(
-                                    label: "HDR",
-                                    isSelected: selectedHdrProfile == DynamicRangeProfile.hlg10.rawValue,
+                                    label: profile.label,
+                                    isSelected: selectedHdrProfile == profile.rawValue,
                                     action: {
-                                        selectedHdrProfile = DynamicRangeProfile.hlg10.rawValue
-                                        vm.selectedDynamicRange = DynamicRangeProfile.hlg10.rawValue
+                                        selectedHdrProfile = profile.rawValue
+                                        vm.selectedDynamicRange = profile.rawValue
                                     }
                                 )
                             }
@@ -298,6 +308,16 @@ struct RecordingView: View {
                             ? "Manual ISO/Shutter updates: Enabled (HDR stays 10-bit)"
                             : "Manual ISO/Shutter updates: Disabled (Scene HDR legacy)")
                             .font(.caption)
+                    }
+                }
+                .onAppear {
+                    // Auto-select the highest-priority HDR profile on first show. We
+                    // only overwrite if the current selection is the SDR sentinel; if
+                    // the user has already picked something, we respect that.
+                    if selectedHdrProfile == DynamicRangeProfile.standard.rawValue,
+                       let best = bestHdrProfile() {
+                        selectedHdrProfile = best
+                        vm.selectedDynamicRange = best
                     }
                 }
             }
@@ -481,10 +501,12 @@ struct RecordingView: View {
             permissionStatus = granted ? .authorized : .denied
         }
         _ = await AVCaptureDevice.requestAccess(for: .audio)
-        let locStatus = CLLocationManager().authorizationStatus
-        if locStatus == .notDetermined {
-            CLLocationManager().requestWhenInUseAuthorization()
-        }
+        // Kick the GPS stream + auth prompt through the *persistent* RecordingService
+        // location manager. We used to call `requestWhenInUseAuthorization()` on a
+        // transient `CLLocationManager()` that was deallocated before the prompt
+        // resolved — on some devices that silently dropped the prompt entirely, which
+        // is the root cause of the "GPS data was not found" failure.
+        RecordingService.shared.startLocationUpdates()
     }
 
     private func activeDevice() -> AVCaptureDevice? {
@@ -536,28 +558,66 @@ struct RecordingView: View {
 
     // MARK: - HDR support detection
 
-    /// Returns the set of DynamicRangeProfile raw values supported by the active rear camera.
-    /// On iOS, HLG10 is the only 10-bit profile AVFoundation exposes directly. HDR10/HDR10+
-    /// aren't separate AVCaptureDevice profiles, so we represent the device's HDR capability
-    /// with HLG10 only — matching the Android UI's single visible "HDR" chip.
+    /// Returns the set of `DynamicRangeProfile` raw values the rear-camera system can
+    /// produce. We scan **every** rear camera (not just `activeDevice()`) because
+    /// HLG_BT2020 is often exposed only on the main wide lens — checking just the
+    /// ultra-wide misses HDR on Pro phones that genuinely support it.
+    ///
+    /// iOS specifics:
+    ///   * **HLG10** — `Format.supportedColorSpaces` contains `.HLG_BT2020`. This is the
+    ///     native HDR capture path on iPhone.
+    ///   * **HDR10** — iOS's HEVC encoder can tag a 10-bit stream with the BT.2100 PQ
+    ///     transfer function (`AVVideoTransferFunction_SMPTE_ST_2084_PQ`), giving a
+    ///     valid HDR10 container. This is available whenever the device has any HDR-
+    ///     capable format (`isVideoHDRSupported` OR HLG_BT2020).
+    ///   * **HDR10+** — not currently exposed by AVFoundation; left out.
     private func supportedHdrProfiles() -> Set<Int> {
-        guard let device = activeDevice() else { return [] }
+        let discovery = AVCaptureDevice.DiscoverySession(
+            deviceTypes: [
+                .builtInWideAngleCamera,
+                .builtInUltraWideCamera,
+                .builtInTelephotoCamera,
+                .builtInDualCamera,
+                .builtInDualWideCamera,
+                .builtInTripleCamera
+            ],
+            mediaType: .video,
+            position: .back
+        )
+
         var profiles: Set<Int> = []
-        if device.activeFormat.supportedColorSpaces.contains(.HLG_BT2020) {
-            profiles.insert(DynamicRangeProfile.hlg10.rawValue)
+
+        // HLG10 needs the BT.2020 HLG color space on at least one format.
+        let supportsHlg = discovery.devices.contains { device in
+            device.formats.contains { $0.supportedColorSpaces.contains(.HLG_BT2020) }
         }
+
+        // HDR10 needs any HDR-capable format (legacy flag OR HLG10 color space). The
+        // encoder writes BT.2100 PQ for HDR10 output.
+        let supportsAnyHdr = discovery.devices.contains { device in
+            device.formats.contains { $0.isVideoHDRSupported || $0.supportedColorSpaces.contains(.HLG_BT2020) }
+        }
+
+        if supportsHlg { profiles.insert(DynamicRangeProfile.hlg10.rawValue) }
+        if supportsAnyHdr { profiles.insert(DynamicRangeProfile.hdr10.rawValue) }
+
         return profiles
+    }
+
+    /// Picks the best available HDR profile in HDR10+ → HDR10 → HLG10 order, returning
+    /// `nil` when no HDR is supported. Used for the auto-select on first appearance.
+    private func bestHdrProfile() -> Int? {
+        let supported = supportedHdrProfiles()
+        for profile in DynamicRangeProfile.priorityOrder where supported.contains(profile.rawValue) {
+            return profile.rawValue
+        }
+        return nil
     }
 
     private func stabilizationSupported() -> Bool {
         guard let device = activeDevice() else { return false }
         return device.activeFormat.isVideoStabilizationModeSupported(.auto)
             || device.activeFormat.isVideoStabilizationModeSupported(.cinematic)
-    }
-
-    /// Read a property off the active camera's `activeFormat` — used for HDR-capability info chips.
-    private func device<T>(activeFormat keyPath: KeyPath<AVCaptureDevice.Format, T>) -> T? {
-        activeDevice()?.activeFormat[keyPath: keyPath]
     }
 
     // MARK: - Auto-exposure loop (mirrors RecordingScreen's LaunchedEffect)
@@ -680,6 +740,22 @@ enum DynamicRangeProfile: Int {
     case hlg10 = 2
     case hdr10 = 4
     case hdr10Plus = 8
+
+    /// Short label shown in the HDR chip.
+    var label: String {
+        switch self {
+        case .standard:  return "SDR"
+        case .hlg10:     return "HLG10"
+        case .hdr10:     return "HDR10"
+        case .hdr10Plus: return "HDR10+"
+        }
+    }
+
+    /// HDR priority order — HDR10+ first, then HDR10, then HLG10. Mirrors the Android
+    /// VM's default-pick logic that prefers HDR10_PLUS over HDR10 over HLG10.
+    static var priorityOrder: [DynamicRangeProfile] {
+        [.hdr10Plus, .hdr10, .hlg10]
+    }
 }
 
 // MARK: - Small reusable chips

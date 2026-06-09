@@ -9,6 +9,7 @@ import Foundation
 import AVFoundation
 import UIKit
 import CoreImage
+import VideoToolbox
 
 enum CameraControllerError: Error {
     case configuration(String)
@@ -103,13 +104,27 @@ final class CameraController: NSObject {
             let url = Self.makeOutputURL(extension: "mp4")
             let writer = try AVAssetWriter(outputURL: url, fileType: .mp4)
 
+            // Default to 4K UHD (3840×2160) HEVC 10-bit. Pairing HEVC Main10 with the
+            // device's HLG_BT2020 color space gives a true 10-bit pipeline equivalent
+            // to the Android HLG10 / HDR10 capture. Bitrate is the same as the prior
+            // H.264 setting — HEVC at 50 Mbps is comfortably above visually-lossless
+            // for 4K30 footage.
             let videoSettings: [String: Any] = [
-                AVVideoCodecKey: AVVideoCodecType.h264,
-                AVVideoWidthKey: 1920,
-                AVVideoHeightKey: 1080,
+                AVVideoCodecKey: AVVideoCodecType.hevc,
+                AVVideoWidthKey: 3840,
+                AVVideoHeightKey: 2160,
                 AVVideoCompressionPropertiesKey: [
-                    AVVideoAverageBitRateKey: 20_000_000,
-                    AVVideoExpectedSourceFrameRateKey: 30
+                    AVVideoAverageBitRateKey: 50_000_000,
+                    AVVideoExpectedSourceFrameRateKey: 30,
+                    AVVideoProfileLevelKey: kVTProfileLevel_HEVC_Main10_AutoLevel as String
+                ],
+                // Tag the file with BT.2020 / HLG so players treat it as HDR rather than
+                // SDR with a wide-gamut pixel format. Without this the encoder produces
+                // 10-bit samples that some players display as washed-out SDR.
+                AVVideoColorPropertiesKey: [
+                    AVVideoColorPrimariesKey: AVVideoColorPrimaries_ITU_R_2020,
+                    AVVideoTransferFunctionKey: AVVideoTransferFunction_ITU_R_2100_HLG,
+                    AVVideoYCbCrMatrixKey: AVVideoYCbCrMatrix_ITU_R_2020
                 ]
             ]
             let vInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
@@ -197,8 +212,6 @@ final class CameraController: NSObject {
         session.beginConfiguration()
         defer { session.commitConfiguration() }
 
-        session.sessionPreset = .high
-
         for input in session.inputs { session.removeInput(input) }
         for output in session.outputs { session.removeOutput(output) }
 
@@ -215,27 +228,82 @@ final class CameraController: NSObject {
             session.addInput(micInput)
         }
 
-        // Video data output (drives ML pipeline + writer)
+        // Pick the best 10-bit HLG format BEFORE adding outputs. Setting
+        // `device.activeFormat` switches the session into `inputPriority` mode, so we
+        // skip the `sessionPreset` call entirely.
+        let picked10Bit = try select10BitHlgFormat(on: device, targetFps: targetFps)
+
+        // Video data output (drives ML pipeline + writer). When we're capturing a 10-bit
+        // HLG format we request the matching x420 (`420YpCbCr10BiPlanarVideoRange`) pixel
+        // format so frames don't get downconverted to 8-bit before they reach the
+        // encoder. We always include the 8-bit fallback for ML/detection paths.
         videoDataOutput.alwaysDiscardsLateVideoFrames = true
-        videoDataOutput.videoSettings = [
-            kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange
-        ]
+        if picked10Bit {
+            videoDataOutput.videoSettings = [
+                kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_420YpCbCr10BiPlanarVideoRange
+            ]
+        } else {
+            videoDataOutput.videoSettings = [
+                kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange
+            ]
+        }
         videoDataOutput.setSampleBufferDelegate(self, queue: videoQueue)
         if session.canAddOutput(videoDataOutput) { session.addOutput(videoDataOutput) }
 
         audioDataOutput.setSampleBufferDelegate(self, queue: audioQueue)
         if session.canAddOutput(audioDataOutput) { session.addOutput(audioDataOutput) }
+    }
 
-        // FPS lock
+    /// Picks the highest-resolution 10-bit HLG-capable `AVCaptureDevice.Format` that can
+    /// also hit `targetFps`, then locks the device into it (with HLG_BT2020 color space
+    /// and the frame-rate range pinned at `targetFps`). Returns `true` when a 10-bit
+    /// format was applied; `false` means we left the device's default `activeFormat`
+    /// in place and the writer will receive 8-bit frames.
+    @discardableResult
+    private func select10BitHlgFormat(on device: AVCaptureDevice, targetFps: Int) throws -> Bool {
+        let targetFpsD = Double(targetFps)
+        let candidates = device.formats.filter { fmt in
+            fmt.supportedColorSpaces.contains(.HLG_BT2020) &&
+            fmt.videoSupportedFrameRateRanges.contains { range in
+                range.minFrameRate <= targetFpsD && targetFpsD <= range.maxFrameRate
+            }
+        }
+
+        // Prefer max pixels; tie-break by max sustained FPS so we pick the higher of
+        // two equally-sized formats when one offers a wider FPS range.
+        let best = candidates.max { a, b in
+            let da = CMVideoFormatDescriptionGetDimensions(a.formatDescription)
+            let db = CMVideoFormatDescriptionGetDimensions(b.formatDescription)
+            let aPix = Int(da.width) * Int(da.height)
+            let bPix = Int(db.width) * Int(db.height)
+            if aPix != bPix { return aPix < bPix }
+            let aMax = a.videoSupportedFrameRateRanges.map { $0.maxFrameRate }.max() ?? 0
+            let bMax = b.videoSupportedFrameRateRanges.map { $0.maxFrameRate }.max() ?? 0
+            return aMax < bMax
+        }
+
         try device.lockForConfiguration()
+        defer { device.unlockForConfiguration() }
+
         let desired = CMTimeMake(value: 1, timescale: Int32(targetFps))
-        if device.activeFormat.videoSupportedFrameRateRanges.contains(where: {
-            $0.minFrameRate <= Double(targetFps) && Double(targetFps) <= $0.maxFrameRate
+
+        if let best {
+            device.activeFormat = best
+            device.activeColorSpace = .HLG_BT2020
+            device.activeVideoMinFrameDuration = desired
+            device.activeVideoMaxFrameDuration = desired
+            return true
+        }
+
+        // No 10-bit option — keep the default activeFormat but still lock the FPS range
+        // so the AE loop's manual shutter math stays predictable.
+        if device.activeFormat.videoSupportedFrameRateRanges.contains(where: { range in
+            range.minFrameRate <= targetFpsD && targetFpsD <= range.maxFrameRate
         }) {
             device.activeVideoMinFrameDuration = desired
             device.activeVideoMaxFrameDuration = desired
         }
-        device.unlockForConfiguration()
+        return false
     }
 
     /// Apply ISO + shutter (exposure-time in ns) to the back camera.

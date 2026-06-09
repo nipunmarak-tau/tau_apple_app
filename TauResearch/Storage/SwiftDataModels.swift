@@ -56,10 +56,10 @@ final class CameraSettingsEntity {
     var exposureTimeNs: Int64
 
     init(
-        previewWidth: Int = 1920,
-        previewHeight: Int = 1080,
-        videoWidth: Int = 1920,
-        videoHeight: Int = 1080,
+        previewWidth: Int = 3840,
+        previewHeight: Int = 2160,
+        videoWidth: Int = 3840,
+        videoHeight: Int = 2160,
         iso: Int = 100,
         fps: Int = 30,
         exposureTimeNs: Int64 = 4_000_000
