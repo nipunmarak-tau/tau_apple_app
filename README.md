@@ -1,6 +1,6 @@
 # Tau Research — iOS
 
-Native iOS port of the Tau Research Android app, built with **Swift 5.9+** and **SwiftUI**
+Native iOS port of the Tau Research app, built with **Swift 5.9+** and **SwiftUI**
 (MVVM + Clean Architecture). Bundle ID: `com.tau.research`. Minimum deployment target: **iOS 17**.
 
 ## Architecture
@@ -77,17 +77,23 @@ Build & run on a physical iOS device (the camera/AVFoundation paths require hard
 The app talks to `https://kiwifruitiq.tau.co.nz/` (same backend as the Android app). Token is
 JWT, stored in the iOS Keychain.
 
-## Cleaning up the old Android project
+## Repository layout
 
-This repo previously hosted the Android (Jetpack Compose) implementation. Folders that are
-no longer used by the iOS build:
+This repo previously hosted the Android (Jetpack Compose) implementation alongside the iOS
+port. The Android project and its build tooling have since been removed — the repo is now
+iOS-only. The removed items (`app/`, `build/`, `.gradle/`, `gradle/`, `.kotlin/`, `.idea/`,
+the Gradle wrapper scripts, `build.gradle.kts`, `settings.gradle.kts`, `gradle.properties`,
+and `local.properties`) remain recoverable through git history if needed.
 
-- `app/`, `build/`, `.gradle/`, `gradle/`, `.kotlin/`, `.idea/`
-- `gradlew`, `gradlew.bat`, `build.gradle.kts`, `settings.gradle.kts`
-- `gradle.properties`, `local.properties`, `TODO.md`
-- `docs/PROJECT_DOCUMENTATION.md`, `docs/RED_FLAGS_AND_TROUBLESHOOTING.md`
+What remains:
 
-They can be removed via Finder or `git rm -r`.
+- `TauResearch/` — Swift sources
+- `TauResearch.xcodeproj/` — generated Xcode project
+- `project.yml` — XcodeGen spec (source of truth for the project)
+- `docs/` — project documentation
+- `README.md`, `TODO.md`
+
+The Android → iOS mapping table above is retained as a reference for the original port.
 
 ## Features ported
 
