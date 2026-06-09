@@ -111,7 +111,7 @@ struct DashboardView: View {
                         .font(.headline)
                         .padding(.horizontal, 18)
                         .padding(.vertical, 14)
-                        .background(.thinMaterial, in: Capsule())
+                        .background(.purple.opacity(0.15), in: Capsule())
                 }
             }
             .padding(20)
